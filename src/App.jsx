@@ -6,7 +6,10 @@ import Cart from "./components/Cart";
 
 
 function App() {
-    const [items, setItems] = useState([])
+    const [items, setItems] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
+    const [cartOpened, setCartOpened] = useState(false);
+
     useEffect(()=> {
         fetch('https://63849b6b3fa7acb14ffa738d.mockapi.io/items')
             .then(response => {
@@ -15,16 +18,19 @@ function App() {
             setItems(json);
         });
     }, [])
-    const [cartOpened, setCartOpened] = useState(false);
     const onClickCart = () => {
         setCartOpened(true);
     }
     const onClose = () => {
         setCartOpened(false);
     }
+    const onAddToCart = (obj) => {
+     setCartItems(prev => [...prev, obj])
+    }
+
   return (
     <div className="wrapper clear">
-        { cartOpened && <Cart onClose = {onClose}/> }
+        { cartOpened && <Cart onClose = {onClose} items={cartItems} /> }
         <Header onClickCart = {onClickCart} />
         <div className="content p-40">
             <div className="d-flex align-center mb-40 justify-between">
@@ -42,7 +48,7 @@ function App() {
                         title = {i.title}
                         price={i.price}
                         onFavorite = {()=> console.log('Добавили закладки')}
-                        onPlus = {()=> console.log('Нажали на плюс')}
+                        onPlus = {(obj) => onAddToCart(obj)}
                     />
                 ))
                 }
