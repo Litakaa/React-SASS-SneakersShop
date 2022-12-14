@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import {NavLink} from "react-router-dom";
+import {useCart} from "../hooks/useCart";
 
 const Header =(props) => {
+    const {totalPrice} = useCart();
+
     return (
         <header className='d-flex justify-between align-center'>
             <NavLink to="/">
@@ -16,7 +19,7 @@ const Header =(props) => {
             <ul className="d-flex">
                 <li onClick={props.onClickCart} className="mr-30 cu-p">
                     <img width={20} height={20} src='/img/cart.svg' alt="Корзина"/>
-                    <span>1205 руб.</span>
+                    <span>{totalPrice} руб.</span>
                 </li>
                 <li className="mr-20 cu-p">
                    <NavLink to='/favorites'>
@@ -24,7 +27,8 @@ const Header =(props) => {
                    </NavLink>
                 </li>
                 <li>
-                    <img width={20} height={20} src='/img/user.svg' alt="Пользователь"/>
+                        <img width={20} height={20} src='/img/user.svg' alt="Пользователь"/>
+
                 </li>
             </ul>
         </header>

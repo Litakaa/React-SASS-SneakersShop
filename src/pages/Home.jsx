@@ -2,13 +2,29 @@ import React from "react";
 import Card from "../components/Card/Card";
 
 
-const Home = ({ searchValue,
+function Home({
+                  items,
+                  searchValue,
                   onClearSearchInput,
                   onChangeSearchInput,
-                  items, onAddToFavorite,
+                  onAddToFavorite,
                   onAddToCart,
-                  cartItems}) =>
-            {
+                  isLoading
+}) {
+    const renderItems = () => {
+        const filtredItems = items.filter((item) =>
+            item.title.toLowerCase().includes(searchValue.toLowerCase()),
+        );
+        return (isLoading ? [...Array(5)] : filtredItems).map((item, index) => (
+            <Card
+                key={index}
+                onFavorite={(obj) => onAddToFavorite(obj)}
+                onPlus={(obj) => onAddToCart(obj)}
+                loading={isLoading}
+                {...item}
+            />
+        ));
+    };
     return (
         <div className="content p-40">
             <div className="d-flex align-center mb-40 justify-between">
@@ -25,23 +41,7 @@ const Home = ({ searchValue,
                 </div>
             </div>
 
-            <div className="sneakers d-flex flex-wrap">
-                {items
-                    .filter((i) => i.title.toLowerCase().includes(searchValue.toLowerCase()))
-                    .map((i, index)=>(
-                        <Card
-                            key = {index}
-                            id ={i.id}
-                            imageUrl = {i.imageUrl}
-                            title = {i.title}
-                            price={i.price}
-                            onFavorite = {(product)=>onAddToFavorite(product)}
-                            onPlus = {(product) => onAddToCart(product)}
-                            added = {cartItems.some((product) => Number(product.id) === Number(i.id))}
-                        />
-                    ))
-                }
-            </div>
+            <div className="sneakers d-flex flex-wrap"> {renderItems()} </div>
         </div>
     )
 }
