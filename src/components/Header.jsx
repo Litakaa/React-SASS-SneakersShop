@@ -26,10 +26,6 @@ const Header =(props) => {
                        <img width={20} height={20} src='/img/heart.svg' alt="Закладки"/>
                    </NavLink>
                 </li>
-                <li>
-                        <img width={20} height={20} src='/img/user.svg' alt="Пользователь"/>
-
-                </li>
             </ul>
         </header>
 
